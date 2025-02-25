@@ -68,7 +68,7 @@ def get_songs(token, song_id):
 
 # Finding song in YouTube using name
 def search_youtube(song_name):
-    print("\n🔎Looking for the song in YouTube")
+    print("\n🔎 Looking for the song in YouTube")
     found_link = []
     for song in tqdm(song_name, desc="Searching", unit="song"):
         # Find t=in youtube using name
@@ -88,6 +88,39 @@ def search_youtube(song_name):
 
     print(f"🎶Found {len(found_link)} link")
     return found_link
+
+
+# Function to download song from youtube to mp3
+def download_song(video_url, song_name):
+    print("\n🗂️  Downloading the songs")
+    succes_song = 0
+    for url, name in zip(video_url, song_name):
+        save_path = os.path.join(DOWNLOAD_FOLDER, name + ".mp3")
+
+        ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': save_path,
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'ffmpeg_location': r'ffmpeg_apk\bin',
+        'noplaylist': True
+        }
+
+        try:
+            with YoutubeDL(ydl_opts) as ydl:
+                ydl.download(url)
+            
+            succes_song += 1
+
+        except Exception as e:
+            print(f"❌ Erroring found while downloading the song: {e}")
+
+        print("")
+
+    print("🎉Success downloading", succes_song, "Songs")
 
 
 # Make the needed variabels
@@ -156,3 +189,6 @@ elif user_link.split("/")[3] == "track":
 
 # Find the song's youtube links 
 youtube_links = search_youtube(found_song)
+
+# Dwonloadig the songs
+download_song(youtube_links, found_song)
