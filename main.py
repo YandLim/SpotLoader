@@ -144,10 +144,11 @@ if user_link.split("/")[3] == "album":
 
     # Printing one by one with number for cleaner output
     for idx, song in enumerate(items):
-        print(f"{idx + 1}: {song['name']}")
+        full_title = f"{song["artists"][0]["name"]} - {song['name']}"
+        print(f"{idx + 1}: {full_title}")
 
         # Store all founded songs into found_song
-        found_song.append(song["name"])
+        found_song.append(full_title)
 
 # If it is playlist
 elif user_link.split("/")[3] == "playlist":
@@ -162,18 +163,13 @@ elif user_link.split("/")[3] == "playlist":
         while next_playlist:
             playlist_songs, next_playlist = get_playlist_song(token, next_playlist)
             items.extend(playlist_songs["items"])
-
-            # Printing one by one with number for cleaner output
             for idx, song in enumerate(items):
                 print(f"{idx + 1}: {song["track"]['name']}")
-
-                # Store all founded songs into found_song
-                found_song.append(song["track"]['name'])
     
-    # If songs is 100 or less than 100
     else:
         for idx, song in enumerate(items):
-            print(f"{idx + 1}: {song["track"]['name']}")
+            full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
+            print(f"{idx + 1}: {full_title}")
 
             # Store all founded songs into found_song
             found_song.append(song["track"]["name"])
@@ -182,13 +178,4 @@ elif user_link.split("/")[3] == "playlist":
 elif user_link.split("/")[3] == "track":
     song_id = user_link.split("/")[4]
     songs = get_songs(token, song_id)
-    print("Found song Name: " + songs["name"])
-
-    # Store the founded song into found_song
-    found_song.append(songs["name"])
-
-# Find the song's youtube links 
-youtube_links = search_youtube(found_song)
-
-# Dwonloadig the songs
-download_song(youtube_links, found_song)
+    print("Song Name: " + songs["name"])
