@@ -181,3 +181,9 @@ elif user_link.split("/")[3] == "track":
     full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
     print("Song Name:", full_title)
     found_song.append(full_title)
+
+# Collecting youtube's links for all the songs
+youtube_links = search_youtube(found_song)
+
+# Downloading one by one song from youtube to mp3 format
+download_song(youtube_links, found_song)
