@@ -1,46 +1,155 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.0.16">
   <diagram name="Page-1" id="4NdgYdVW0mMY6pDMlmJf">
-    <mxGraphModel dx="1050" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1342" dy="401" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-3" target="tXZqEw7rWf0vmvOP3cQW-8">
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1.001;exitY=0.55;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="wfH4DKmYA_PpzVXBzpF9-12" target="tXZqEw7rWf0vmvOP3cQW-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="397.9999748047296" y="278.04761904761904" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-14" value="If Avaible" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tXZqEw7rWf0vmvOP3cQW-9">
+          <mxGeometry x="0.1273" y="2" relative="1" as="geometry">
+            <mxPoint x="-42" y="-50" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-3" target="wfH4DKmYA_PpzVXBzpF9-12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-3" value="Asking for the spotfiy link" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="40" width="90" height="90" as="geometry" />
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-3" value="Asking for the spotfiy link" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="28" y="218" width="90" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8">
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="400" y="70" as="targetPoint" />
+            <mxPoint x="628" y="313" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-15" value="A song" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tXZqEw7rWf0vmvOP3cQW-14">
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-15" value="A song" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tXZqEw7rWf0vmvOP3cQW-14" vertex="1" connectable="0">
           <mxGeometry x="-0.1359" y="6" relative="1" as="geometry">
-            <mxPoint y="-9" as="offset" />
+            <mxPoint x="-16" y="-9" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8" target="tXZqEw7rWf0vmvOP3cQW-18">
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8" target="tXZqEw7rWf0vmvOP3cQW-18" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="350" y="130" as="targetPoint" />
+            <mxPoint x="578" y="373" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="355" y="100" />
+              <mxPoint x="583" y="343" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-19" value="Playlist" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tXZqEw7rWf0vmvOP3cQW-17">
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-19" value="Playlist" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tXZqEw7rWf0vmvOP3cQW-17" vertex="1" connectable="0">
           <mxGeometry x="0.2778" y="-3" relative="1" as="geometry">
-            <mxPoint x="-12" y="-23" as="offset" />
+            <mxPoint x="-12" y="-32" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-8" value="Open the given link and decide if it&#39;s a playlist or a song" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="55" width="120" height="60" as="geometry" />
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.565;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8" target="wfH4DKmYA_PpzVXBzpF9-3">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-16" value="Take the song name&amp;nbsp;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="400" y="40" width="120" height="60" as="geometry" />
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-8" value="Album" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wfH4DKmYA_PpzVXBzpF9-2">
+          <mxGeometry x="-0.0768" y="-4" relative="1" as="geometry">
+            <mxPoint x="-4" y="-5" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="tXZqEw7rWf0vmvOP3cQW-18" value="Scrape all the song&#39;s names" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="295" y="140" width="120" height="60" as="geometry" />
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="548.4761904761904" y="358.04761904761904" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-8" value="Open the given link and decide if it&#39;s a album, playlist or a song" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="418" y="283" width="130" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-16" target="wfH4DKmYA_PpzVXBzpF9-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-16" value="Collect the song&#39;s name and artist&#39;s name" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="628" y="283" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tXZqEw7rWf0vmvOP3cQW-18" target="wfH4DKmYA_PpzVXBzpF9-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tXZqEw7rWf0vmvOP3cQW-18" value="Collect all the song&#39;s names and artist&#39;s names" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="538" y="383" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-3" target="wfH4DKmYA_PpzVXBzpF9-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="438" y="493" />
+              <mxPoint x="538" y="493" />
+              <mxPoint x="538" y="523" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-3" value="Collect all the song&#39;s names with artist name" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="378" y="403" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-4" target="wfH4DKmYA_PpzVXBzpF9-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-4" value="Searching the title and artist name in Youtube" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="578" y="493" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-10" target="wfH4DKmYA_PpzVXBzpF9-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-10" value="Collect each one video ids" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="578" y="593" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-12" target="wfH4DKmYA_PpzVXBzpF9-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-17" value="If not avaible" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rotation=-90;" vertex="1" connectable="0" parent="wfH4DKmYA_PpzVXBzpF9-16">
+          <mxGeometry x="0.0415" y="-5" relative="1" as="geometry">
+            <mxPoint x="-5" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-12" value="Check for the songs folder" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="158" y="233" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-15" target="tXZqEw7rWf0vmvOP3cQW-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="348" y="313" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="358" y="423" />
+              <mxPoint x="358" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-15" value="Make the songs folder" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="158" y="373" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-22" target="wfH4DKmYA_PpzVXBzpF9-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-22" target="wfH4DKmYA_PpzVXBzpF9-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-22" value="Start the procces as much as the given songs" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="443" y="713" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-24" target="wfH4DKmYA_PpzVXBzpF9-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-24" value="Downloading the video ids video" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="443" y="823" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-26" target="wfH4DKmYA_PpzVXBzpF9-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-26" value="Store into songs folder" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="268" y="823" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wfH4DKmYA_PpzVXBzpF9-28" target="wfH4DKmYA_PpzVXBzpF9-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-28" value="Convert the video to .mp3 Formar" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="268" y="713" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-33" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Ending the Program with songs folder output&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="713" y="688" width="110" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="wfH4DKmYA_PpzVXBzpF9-35" value="If done for all the songs" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="563" y="713" width="150" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
