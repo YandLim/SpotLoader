@@ -66,7 +66,8 @@ if user_link.split("/")[3] == "album":
     items = playlist_songs["tracks"]["items"]
 
     for idx, song in enumerate(items):
-        print(f"{idx + 1}: {song['name']}")
+        full_title = f"{song["artists"][0]["name"]} - {song['name']}"
+        print(f"{idx + 1}: {full_title}")
 
 elif user_link.split("/")[3] == "playlist":
     playlist_id = user_link.split("/")[4]
@@ -78,15 +79,19 @@ elif user_link.split("/")[3] == "playlist":
         while next_playlist:
             playlist_songs, next_playlist = get_playlist_song(token, next_playlist)
             items.extend(playlist_songs["items"])
+
             for idx, song in enumerate(items):
-                print(f"{idx + 1}: {song["track"]['name']}")
+                full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
+                print(f"{idx + 1}: {full_title}")
     
     else:
         for idx, song in enumerate(items):
-            print(f"{idx + 1}: {song["track"]['name']}")
+            full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
+            print(f"{idx + 1}: {full_title}")
 
 
 elif user_link.split("/")[3] == "track":
     song_id = user_link.split("/")[4]
-    songs = get_songs(token, song_id)
-    print("Song Name: " + songs["name"])
+    song = get_songs(token, song_id)
+    full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
+    print("Song Name:", full_title)
