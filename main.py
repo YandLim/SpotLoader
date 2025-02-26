@@ -10,6 +10,7 @@ import json
 import os
 import re
 
+
 # Load the env data
 load_dotenv()
 client_id = os.getenv("CLIENT_ID")
