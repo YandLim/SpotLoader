@@ -82,7 +82,7 @@ def get_thumbnail(urls, save_name):
 def sanitize_filename(filename):
     all_name = []
     for name in filename:
-        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)  # Hapus karakter ilegal
+        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
         all_name.append(sanitized.strip())
     return all_name
 
@@ -145,3 +145,4 @@ elif user_link.split("/")[3] == "track":
     
 sanitize_name = sanitize_filename(found_song)
 get_thumbnail(thumbnail_url, sanitize_name)
+
