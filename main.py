@@ -5,6 +5,7 @@ from yt_dlp import YoutubeDL
 import urllib.request
 from tqdm import tqdm
 import urllib.parse
+import requests
 import base64
 import json
 import os
@@ -218,6 +219,8 @@ elif user_link.split("/")[3] == "track":
     song = get_songs(token, song_id)
     full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
     print("Song Name:", full_title)
+
+    thumbnail_url.append(song)
     found_song.append(full_title)
 
 # Collecting youtube's links for all the songs
@@ -226,9 +229,8 @@ youtube_links = search_youtube(found_song)
 # Downloading one by one song from youtube to mp3 format
 download_song(youtube_links, found_song)
 
+# Removing unacceptable symbol in name and download the thumbnail
 sanitize_name = sanitize_filename(found_song)
-
-
 get_thumbnail(thumbnail_url, sanitize_name)
 
  
