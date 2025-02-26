@@ -125,9 +125,40 @@ def download_song(video_url, song_name):
 
 
 # Make the needed variabels
+def get_thumbnail(urls, save_name):
+    length = 0
+    counter = 1
+    for url, raw_name in zip(urls, save_name):
+        raw_name = raw_name.split("-")[1]
+        name = os.path.join(DOWNLOAD_IMAGES, f"{raw_name}.jpg")
+        response = requests.get(url)
+
+        if os.path.exists(name):  # Cek apakah file sudah ada
+            name = name.split(".")[0] + f"{counter}" + ".jpg" # Tambah angka sebelum ekstensi
+            counter += 1
+
+        if response.status_code == 200:
+            with open(name, "wb") as f:
+                f.write(response.content)
+                length += 1
+        else:
+            print(f"❌ Error couldn't find {name} thumbnail image")
+            
+
+def sanitize_filename(filename):
+    all_name = []
+    for name in filename:
+        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
+        all_name.append(sanitized.strip())
+    return all_name
+
+
 found_song = []
+thumbnail_url = []
 token = get_token()
 DOWNLOAD_FOLDER = "Songs"
+DOWNLOAD_IMAGES = "Images"
+
 
 # Make the folder to store downloaded song if it's not found
 if not os.path.exists(DOWNLOAD_FOLDER):
@@ -148,7 +179,8 @@ if user_link.split("/")[3] == "album":
         full_title = f"{song["artists"][0]["name"]} - {song['name']}"
         print(f"{idx + 1}: {full_title}")
 
-        # Store all founded songs into found_song
+        # Store all founded songs and thumbnails 
+        thumbnail_url.append(playlist_songs["images"][0]["url"])
         found_song.append(full_title)
 
 # If it is playlist
@@ -167,6 +199,8 @@ elif user_link.split("/")[3] == "playlist":
         for idx, song in enumerate(items):
                 full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
                 print(f"{idx + 1}: {full_title}")
+
+                thumbnail_url.append(song["track"]["album"]["images"][0]["url"])
                 found_song.append(full_title)
     
     # If not 100 or less than 100 
@@ -174,6 +208,8 @@ elif user_link.split("/")[3] == "playlist":
         for idx, song in enumerate(items):
             full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
             print(f"{idx + 1}: {full_title}")
+
+            thumbnail_url.append(song["track"]["album"]["images"][0]["url"])
             found_song.append(full_title)
 
 # If it is individual song
@@ -189,4 +225,10 @@ youtube_links = search_youtube(found_song)
 
 # Downloading one by one song from youtube to mp3 format
 download_song(youtube_links, found_song)
+
+sanitize_name = sanitize_filename(found_song)
+
+
+get_thumbnail(thumbnail_url, sanitize_name)
+
  
