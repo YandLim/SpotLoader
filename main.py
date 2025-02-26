@@ -2,11 +2,14 @@
 from dotenv import load_dotenv
 from requests import post, get
 from yt_dlp import YoutubeDL
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC, ID3NoHeaderError
 import urllib.request
 from tqdm import tqdm
 import urllib.parse
 import requests
 import base64
+import shutil
 import json
 import os
 import re
@@ -95,6 +98,7 @@ def search_youtube(song_name):
 # Function to download song from youtube to mp3
 def download_song(video_url, song_name):
     print("\n🗂️  Downloading the songs")
+    store_name = []
     succes_song = 0
     for url, name in zip(video_url, song_name):
         save_path = os.path.join(DOWNLOAD_FOLDER, name)
@@ -120,18 +124,30 @@ def download_song(video_url, song_name):
         except Exception as e:
             print(f"❌ Erroring found while downloading the song: {e}")
 
+        store_name.append(name + ".mp3")
         print("")
 
     print("🎉Success downloading", succes_song, "Songs")
+    return store_name
+
+
+# Function to remove unacceptable symbol in name such as '?'
+def sanitize_filename(filename):
+    all_name = []
+    for name in filename:
+        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
+        all_name.append(sanitized.strip())
+    return all_name
 
 
 # Make the needed variabels
 def get_thumbnail(urls, save_name):
-    length = 0
+    pic_name = []
     counter = 1
-    for url, raw_name in zip(urls, save_name):
+    print("\n🖼️ Downloading the thumbnail")
+    for url, raw_name in tqdm(zip(urls, save_name), desc="Downloading", total=len(urls), unit="Pic"):
         raw_name = raw_name.split("-")[1]
-        name = os.path.join(DOWNLOAD_IMAGES, f"{raw_name}.jpg")
+        name = os.path.join(PIC_FOLDER, f"{raw_name}.jpg")
         response = requests.get(url)
 
         if os.path.exists(name):  # Cek apakah file sudah ada
@@ -141,29 +157,51 @@ def get_thumbnail(urls, save_name):
         if response.status_code == 200:
             with open(name, "wb") as f:
                 f.write(response.content)
-                length += 1
+            pic_name.append(name)
         else:
             print(f"❌ Error couldn't find {name} thumbnail image")
+
+    print("🥅 Get Them all")
+    return pic_name
             
 
-def sanitize_filename(filename):
-    all_name = []
-    for name in filename:
-        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
-        all_name.append(sanitized.strip())
-    return all_name
+def add_thumbnail(songs_path, cover_pic_path):
+    print("\n🎨 Changing the song's thumbnail")
+    for song, cover_pic in tqdm(zip(songs_path, cover_pic_path), desc="Changing", total=len(songs_path), unit="song"):
+        song_path = os.path.join("Songs", song)  # Perbaiki path dengan os.path.join
 
+        try:
+            audio = MP3(song_path, ID3=ID3)
+        except ID3NoHeaderError:  # Tangkap error yang lebih spesifik
+            audio = MP3(song_path)
+            audio.add_tags()
+
+        with open(cover_pic, "rb") as img:
+            audio.tags.add(APIC(
+                encoding=3,
+                mime="image/jpeg",  # Pastikan ini sesuai format gambar
+                type=3,
+                desc="Cover",
+                data=img.read()
+            ))
+
+        audio.save()  # Simpan setelah setiap perubahan
+    print("🎵 All thumbnails updated successfully!")
 
 found_song = []
 thumbnail_url = []
 token = get_token()
 DOWNLOAD_FOLDER = "Songs"
-DOWNLOAD_IMAGES = "Images"
+PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
 
 
 # Make the folder to store downloaded song if it's not found
 if not os.path.exists(DOWNLOAD_FOLDER):
     os.makedirs(DOWNLOAD_FOLDER)
+
+
+if not os.path.exists(PIC_FOLDER):
+    os.makedirs(PIC_FOLDER)
 
 # Asking for link from user
 user_link = input("Please enter the link to a playlist or song\n=> ")
@@ -220,17 +258,18 @@ elif user_link.split("/")[3] == "track":
     full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
     print("Song Name:", full_title)
 
-    thumbnail_url.append(song)
+    thumbnail_url.append(song["album"]["images"][0]["url"])
     found_song.append(full_title)
 
 # Collecting youtube's links for all the songs
 youtube_links = search_youtube(found_song)
 
 # Downloading one by one song from youtube to mp3 format
-download_song(youtube_links, found_song)
+song_file_name = download_song(youtube_links, found_song)
 
 # Removing unacceptable symbol in name and download the thumbnail
 sanitize_name = sanitize_filename(found_song)
-get_thumbnail(thumbnail_url, sanitize_name)
+cover_pic_name = get_thumbnail(thumbnail_url, sanitize_name)
 
- 
+add_thumbnail(song_file_name, cover_pic_name)
+shutil.rmtree(PIC_FOLDER)
