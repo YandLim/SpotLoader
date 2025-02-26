@@ -165,27 +165,28 @@ def get_thumbnail(urls, save_name):
     return pic_name
             
 
+# Change the songs cover
 def add_thumbnail(songs_path, cover_pic_path):
     print("\n🎨 Changing the song's thumbnail")
     for song, cover_pic in tqdm(zip(songs_path, cover_pic_path), desc="Changing", total=len(songs_path), unit="song"):
-        song_path = os.path.join("Songs", song)  # Perbaiki path dengan os.path.join
+        song_path = os.path.join("Songs", song)  # Merge path using os.path.join
 
         try:
             audio = MP3(song_path, ID3=ID3)
-        except ID3NoHeaderError:  # Tangkap error yang lebih spesifik
+        except ID3NoHeaderError:  # If the song doesn't have ID3 tag
             audio = MP3(song_path)
             audio.add_tags()
 
         with open(cover_pic, "rb") as img:
             audio.tags.add(APIC(
                 encoding=3,
-                mime="image/jpeg",  # Pastikan ini sesuai format gambar
+                mime="image/jpeg",  # Picture format inculude jpg
                 type=3,
                 desc="Cover",
                 data=img.read()
             ))
 
-        audio.save()  # Simpan setelah setiap perubahan
+        audio.save()  # Save for each changes
     print("🎵 All thumbnails updated successfully!")
 
 found_song = []
@@ -271,5 +272,7 @@ song_file_name = download_song(youtube_links, found_song)
 sanitize_name = sanitize_filename(found_song)
 cover_pic_name = get_thumbnail(thumbnail_url, sanitize_name)
 
+# Change the song cover picture
 add_thumbnail(song_file_name, cover_pic_name)
+# Deleting the cover picture file
 shutil.rmtree(PIC_FOLDER)
