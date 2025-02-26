@@ -96,7 +96,7 @@ def download_song(video_url, song_name):
     print("\n🗂️  Downloading the songs")
     succes_song = 0
     for url, name in zip(video_url, song_name):
-        save_path = os.path.join(DOWNLOAD_FOLDER, name + ".mp3")
+        save_path = os.path.join(DOWNLOAD_FOLDER, name)
 
         ydl_opts = {
         'format': 'bestaudio/best',
@@ -169,6 +169,7 @@ elif user_link.split("/")[3] == "playlist":
                 print(f"{idx + 1}: {full_title}")
                 found_song.append(full_title)
     
+    # If not 100 or less than 100 
     else:
         for idx, song in enumerate(items):
             full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
