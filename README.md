@@ -9,11 +9,13 @@ Have you ever enjoying the song
 
 ## How to run the program:
 1. Donwload the modules from requirement.txt using
+
 '''
 pip install -r requirements.txt
 '''
 
 2. Set up your Spotify API credentials: Go to the Spotify Dashboard and create a new app. Then, copy and paste the Client ID, Client Secret, and Redirect URL into a .env file in the root directory of the project like the following:
+
 '''
 CLIENT_ID=<YOUR_CLIENT_ID> CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 '''
@@ -21,6 +23,7 @@ CLIENT_ID=<YOUR_CLIENT_ID> CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 3. Open the main.py in your code editor and run it.
 
 4. If you want to make it as exe file download pyinstaller and
+
 '''
 pyinstaller --onedir --windowed --icon=SpotLoader.ico main.py
 '''
