@@ -2,7 +2,6 @@
 import customtkinter as ctk
 from tkinter import filedialog
 import pyperclip
-import time
 import threading
 from backend import Main
 import os
