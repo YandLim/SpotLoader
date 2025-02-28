@@ -16,6 +16,7 @@ class App(ctk.CTk):
         self.geometry("850x600")
         self.title("SpotLoader")
         self._set_appearance_mode("dark")
+        self.iconbitmap("SpotLoader.ico")
 
         # Make the Main frame to store the content
         self.main_frame = ctk.CTkFrame(self, fg_color="#202528", corner_radius=100, border_width=5, border_color="black")
@@ -265,10 +266,16 @@ class App(ctk.CTk):
 
             
             # Remove all the ureadeable symbol from name
+            self.progress_bar.set(0)
+            self.precentage_lbl.configure(text= "0%")
             sanitize_name = []
-            for file_name in song_file_name:
+            self.print_info("🧹 Cleaning file name")
+            for i , file_name in enumerate(song_file_name):
                 sanitize = main.sanitize_filename(file_name)
                 sanitize_name.append(sanitize)
+                self.progress_bar.set((i + 1)/ found_song_len)
+                self.update_precentage(i + 1, found_song_len)
+            self.print_info("✨ Name clean")
 
 
             # Downloading the thumbnail
