@@ -1,22 +1,28 @@
+# Importing Modules
 import customtkinter as ctk
 from tkinter import filedialog
 import pyperclip
 import time
 import threading
-from main import Main
+from backend import Main
 import os
 import shutil
 
+# Making the front-end class
 class App(ctk.CTk):
+    # Make the auto start function
     def __init__(self):
-        super().__init__()
+        super().__init__() # Set the CTK to be functioning
+        # Make the base frame
         self.geometry("850x600")
         self.title("SpotLoader")
         self._set_appearance_mode("dark")
 
+        # Make the Main frame to store the content
         self.main_frame = ctk.CTkFrame(self, fg_color="#202528", corner_radius=100, border_width=5, border_color="black")
         self.main_frame.pack(fill="both", expand=True, padx=25, pady=25)
 
+        # Make the title
         self.spot_label = ctk.CTkLabel(self.main_frame, text="Spot", font=("Montserrat", 50, "bold"), text_color="#1DB954", fg_color="#000000", bg_color="black", corner_radius=20) 
         self.spot_label.place(x=20, y=400)
 
@@ -35,6 +41,7 @@ class App(ctk.CTk):
         self.line_frame = ctk.CTkFrame(self.main_frame, fg_color="#606060", corner_radius=35, height=20)
         self.line_frame.pack(pady=125, padx=25, fill="x")
 
+        # Make the Choose download folder section
         self.dir_frame = ctk.CTkFrame(self.main_frame, fg_color="white", height=40, width=290, border_width=4, border_color="gray")
         self.dir_frame.place(x=33, y=200)
         self.dir_frame.pack_propagate(False)
@@ -47,6 +54,7 @@ class App(ctk.CTk):
         self.dir_btn = ctk.CTkButton(self.main_frame, text="Choose", font=("Times New Romans", 15, "bold"), command=self.choose_dir, corner_radius=32, height=40, width=150, text_color="black", fg_color="#1DB954", hover_color="#127A37", border_width=3, border_color="black")
         self.dir_btn.place(x=93, y=270)
 
+        # Make the link entry section
         self.link_entry = ctk.CTkEntry(self.main_frame, fg_color="white", font=("Arial Black", 13, "italic"), height=40, width=290, text_color="#4D4A4A", justify="center", border_width=4, border_color="gray")
         self.link_entry.place(x=430, y=200)
         self.link_entry.insert(0, "Paste Your Link Here")
@@ -59,6 +67,7 @@ class App(ctk.CTk):
         self.download_btn = ctk.CTkButton(self.main_frame, text="Download", font=("Times New Romans", 15, "bold"), command=self.download, corner_radius=32, height=40, width=150, text_color="black", fg_color="#1DB954", hover_color="#127A37", border_width=3, border_color="black")
         self.download_btn.place(x=490, y=270)
 
+        # Make info frame for printing info out
         self.info_frame = ctk.CTkFrame(self.main_frame, fg_color="#32CD32", width=345, height=120)
         self.info_frame.place(x=410, y=338)
 
@@ -67,13 +76,15 @@ class App(ctk.CTk):
         self.info_sign.insert("1.0", "Welcome to Spotloader 🎶🎶")
         self.info_sign.configure(state="disabled")
 
+        # Set the proggres bar with precentage
         self.progress_bar = ctk.CTkProgressBar(self.main_frame, width=300, height=25, fg_color="black", progress_color="#1DB954", border_width=1, border_color="white")
-        self.progress_bar.place_forget
+        self.progress_bar.place_forget()
 
         self.precentage_lbl = ctk.CTkLabel(self.main_frame, text="0%", font=("Times New Roman", 25, "bold"), text_color="gray")
-        self.precentage_lbl.place_forget
+        self.precentage_lbl.place_forget()
 
 
+    # Function to printing in info
     def print_info(self, info):
         self.info_sign.configure(state="normal")
         self.info_sign.insert("end", "\n" + info)
@@ -81,12 +92,13 @@ class App(ctk.CTk):
         self.info_sign.see("end")
 
 
+    # Updating the shown precentage
     def update_precentage(self, number, total):
         raw_value = number / total
         value = f"{raw_value * 100:.1f}%"
         self.precentage_lbl.configure(text=value)
 
-
+    # Function to choosing the directory
     def choose_dir(self):
         folder_path = filedialog.askdirectory()
         if folder_path:
@@ -96,20 +108,22 @@ class App(ctk.CTk):
             self.dir_text.configure(state="disable", text_color="black")
 
 
+    # To make the default text visible and not visible when typing
     def on_entry_click(self, event):
-        """Hapus placeholder saat user mulai mengetik."""
+        # Make the typing text more visible when typing
         if self.link_entry.get() == "Paste Your Link Here":
             self.link_entry.delete(0, "end")
-            self.link_entry.configure(text_color="black")  # Ubah warna teks jadi hitam
+            self.link_entry.configure(text_color="black")
 
 
     def on_focus_out(self, event):
-        """Kembalikan placeholder jika input kosong."""
+        # printing the default text if it's empty
         if self.link_entry.get() == "":
             self.link_entry.insert(0, "Paste Your Link Here")
             self.link_entry.configure(text_color="gray")  # Ubah warna teks jadi abu-abu
 
 
+    # Paste button
     def paste_text(self):
         text = pyperclip.paste()
         self.link_entry.delete(0, "end")
@@ -117,12 +131,16 @@ class App(ctk.CTk):
         self.link_entry.configure(text_color="black") 
 
 
+    # Main funtion after clicking download button
     def download(self):
+        # Define backend class
         main = Main()
 
+        # Make all the button disable to click after clicking download button
         self.download_btn.configure(text="Downloading...", state="disabled", fg_color="#127A37")
         self.dir_btn.configure(state="disabled", fg_color="#127A37")
 
+        # Checking if download path is avaible. If not, ask it again
         dir_path = self.dir_text.get(1.0, "end-1c")
         if dir_path == "Choose Download Folder":
             self.print_info("Pls Choose The Save Folder")
@@ -130,6 +148,7 @@ class App(ctk.CTk):
             self.dir_btn.configure(state="normal", fg_color="#1DB954")
             return
         
+        # Checking if spotify's link is avaible. If not, ask it again
         try:
             user_link = self.link_entry.get()
         except:
@@ -144,16 +163,20 @@ class App(ctk.CTk):
             self.dir_btn.configure(state="normal", fg_color="#1DB954")
             return
         
+        # Running the backend program
         def run_progress():
+            # Define needed variabels
             found_song = []
             thumbnail_url = []
             token = main.get_token()
             DOWNLOAD_FOLDER = dir_path
             PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
 
+            # Checking if download path is avaible. If not, make one
             if not os.path.exists(PIC_FOLDER):
                 os.makedirs(PIC_FOLDER)
 
+            # Printing info out 
             self.print_info("\nFound Song:")
 
             # If it is album
@@ -209,13 +232,16 @@ class App(ctk.CTk):
                 self.print_info(f"{idx + 1}: {song}")
 
 
+            # Shown the hidden progress bar and precentage 
             self.progress_bar.set(0)
             self.progress_bar.place(x=420, y=480)
             self.precentage_lbl.configure(text= "0%")
             self.precentage_lbl.place(x=550, y=513)
 
+            # Define the total item found
             found_song_len = len(found_song)
 
+            # Find the song, updating precentage and progress bar
             youtube_links = []
             self.print_info("\n🔎 Looking for the song in YouTube")     
             for i, song in enumerate(found_song):
@@ -226,6 +252,7 @@ class App(ctk.CTk):
             self.print_info(f"🎶 Found {len(youtube_links)} link")
 
 
+            # Downloading the songs set precentage and progress bar to 0 and updating them again
             self.progress_bar.set(0)
             self.precentage_lbl.configure(text= "0%")
             song_file_name = []
@@ -238,12 +265,14 @@ class App(ctk.CTk):
             self.print_info(f"🎉 Success downloading {len(song_file_name)} Songs") 
 
             
+            # Remove all the ureadeable symbol from name
             sanitize_name = []
             for file_name in song_file_name:
                 sanitize = main.sanitize_filename(file_name)
                 sanitize_name.append(sanitize)
 
 
+            # Downloading the thumbnail
             self.progress_bar.set(0)
             self.precentage_lbl.configure(text= "0%")
             cover_pic_name = []
@@ -256,6 +285,7 @@ class App(ctk.CTk):
             self.print_info("👌 Got'em") 
 
 
+            # Changing the thumbnail for every song
             self.progress_bar.set(0)
             self.precentage_lbl.configure(text= "0%")
             self.print_info("🎨 Changing the song's thumbnail") 
@@ -265,15 +295,14 @@ class App(ctk.CTk):
                 self.update_precentage(i + 1, found_song_len)
             self.print_info("🎵 All thumbnails updated successfully!") 
 
+            # Remove the pic folder with the thumbnail pic in it
             shutil.rmtree(PIC_FOLDER)
 
-        self.progress_bar.place_forget
-        self.precentage_lbl.place_forget        
-        self.download_btn.configure(state="normal", text="Download", fg_color="#1DB954")
-        self.dir_btn.configure(state="normal", fg_color="#1DB954")
+            # Make the button avaible and hide the progress and precentage bar
+            self.progress_bar.place_forget()
+            self.precentage_lbl.place_forget()     
+            self.download_btn.configure(state="normal", text="Download", fg_color="#1DB954")
+            self.dir_btn.configure(state="normal", fg_color="#1DB954")
+
+
         threading.Thread(target=run_progress, daemon=True).start()
-
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
