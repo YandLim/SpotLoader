@@ -5,77 +5,73 @@ from yt_dlp import YoutubeDL
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, ID3NoHeaderError
 import urllib.request
-from tqdm import tqdm
 import urllib.parse
 import requests
 import base64
-import shutil
 import json
 import os
 import re
 
+# Make the all-in class
+class Main:
+    def __init__(self):
+        # Load the env data
+        load_dotenv()
+        self.client_id = os.getenv("CLIENT_ID")
+        self.client_secret = os.getenv("CLIENT_SECRET")
 
-# Load the env data
-load_dotenv()
-client_id = os.getenv("CLIENT_ID")
-client_secret = os.getenv("CLIENT_SECRET")
+    # Get the token for authentication
+    def get_token(self):
+        auth_string = self.client_id + ":" + self.client_secret
+        auth_bytes = auth_string.encode("utf-8")
+        auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
 
+        url = "https://accounts.spotify.com/api/token"
+        headers = {
+            "Authorization": "Basic " + auth_base64,
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
 
-# Get the token for authentication
-def get_token():
-    auth_string = client_id + ":" + client_secret
-    auth_bytes = auth_string.encode("utf-8")
-    auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
+        data = {"grant_type": "client_credentials"}
+        result = post(url, headers=headers, data=data)
+        json_result = json.loads(result.content)
+        token = json_result["access_token"]
+        return token
 
-    url = "https://accounts.spotify.com/api/token"
-    headers = {
-        "Authorization": "Basic " + auth_base64,
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
+    # Set the header for cleaner code
+    def get_auth_header(self, token):
+        return {"Authorization": "Bearer "+ token}
 
-    data = {"grant_type": "client_credentials"}
-    result = post(url, headers=headers, data=data)
-    json_result = json.loads(result.content)
-    token = json_result["access_token"]
-    return token
-
-# Set the header for cleaner code
-def get_auth_header(token):
-    return {"Authorization": "Bearer "+ token}
-
-# Take the song from album
-def get_album_song(token, album_id):
-    url = f"https://api.spotify.com/v1/albums/{album_id}"
-    headers = get_auth_header(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)
-    return json_result
-
-
-# Take the song from playlist
-def get_playlist_song(token, url):
-    url = url
-    headers = get_auth_header(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)
-    next_items = json_result["next"]
-    return json_result, next_items
+    # Take the song from album
+    def get_album_song(self, token, album_id):
+        url = f"https://api.spotify.com/v1/albums/{album_id}"
+        headers = {"Authorization": "Bearer "+ token}
+        result = get(url, headers=headers)
+        json_result = json.loads(result.content)
+        return json_result
 
 
-# Take the an individual song 
-def get_songs(token, song_id):
-    url = f"https://api.spotify.com/v1/tracks/{song_id}"
-    headers = get_auth_header(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)
-    return json_result
+    # Take the song from playlist
+    def get_playlist_song(self, token, url):
+        url = url
+        headers = {"Authorization": "Bearer "+ token}
+        result = get(url, headers=headers)
+        json_result = json.loads(result.content)
+        next_items = json_result["next"]
+        return json_result, next_items
 
 
-# Finding song in YouTube using name
-def search_youtube(song_name):
-    print("\n🔎 Looking for the song in YouTube")
-    found_link = []
-    for song in tqdm(song_name, desc="Searching", unit="song"):
+    # Take the an individual song 
+    def get_songs(self, token, song_id):
+        url = f"https://api.spotify.com/v1/tracks/{song_id}"
+        headers = {"Authorization": "Bearer "+ token}
+        result = get(url, headers=headers)
+        json_result = json.loads(result.content)
+        return json_result
+
+
+    # Finding song in YouTube using name
+    def search_youtube(self, song):
         # Find t=in youtube using name
         search_query = urllib.parse.quote(song)
         url = f"https://www.youtube.com/results?search_query={search_query}"
@@ -85,22 +81,17 @@ def search_youtube(song_name):
             html = urllib.request.urlopen(url).read().decode()
             video_ids = re.findall(r"watch\?v=(\S{11})", html)
             if video_ids:
-                found_link.append(f"https://www.youtube.com/watch?v={video_ids[0]}")  # Take the first video found
+                found_link = f"https://www.youtube.com/watch?v={video_ids[0]}"  # Take the first video found
         
         # Error occured
         except Exception as e:
-            print(f"❌ Error when looking for the video: {e}")
+            return
 
-    print(f"🎶Found {len(found_link)} link")
-    return found_link
+        return found_link
 
 
-# Function to download song from youtube to mp3
-def download_song(video_url, song_name):
-    print("\n🗂️  Downloading the songs")
-    store_name = []
-    succes_song = 0
-    for url, name in zip(video_url, song_name):
+    # Function to download song from youtube to mp3
+    def download_song(self, url, name, DOWNLOAD_FOLDER):
         save_path = os.path.join(DOWNLOAD_FOLDER, name)
 
         ydl_opts = {
@@ -119,33 +110,25 @@ def download_song(video_url, song_name):
             with YoutubeDL(ydl_opts) as ydl:
                 ydl.download(url)
             
-            succes_song += 1
 
         except Exception as e:
-            print(f"❌ Erroring found while downloading the song: {e}")
+            return
 
-        store_name.append(name + ".mp3")
-        print("")
+        store_name = name + ".mp3"
 
-    print("🎉Success downloading", succes_song, "Songs")
-    return store_name
+        return store_name
 
 
-# Function to remove unacceptable symbol in name such as '?'
-def sanitize_filename(filename):
-    all_name = []
-    for name in filename:
+    # Function to remove unacceptable symbol in name such as '?'
+    def sanitize_filename(self, name):
+        all_name = []
         sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
-        all_name.append(sanitized.strip())
-    return all_name
+        return sanitized
 
 
-# Make the needed variabels
-def get_thumbnail(urls, save_name):
-    pic_name = []
-    counter = 1
-    print("\n🖼️ Downloading the thumbnail")
-    for url, raw_name in tqdm(zip(urls, save_name), desc="Downloading", total=len(urls), unit="Pic"):
+    # Make the needed variabels
+    def get_thumbnail(self, url, raw_name, PIC_FOLDER):
+        counter = 1
         raw_name = raw_name.split("-")[1]
         name = os.path.join(PIC_FOLDER, f"{raw_name}.jpg")
         response = requests.get(url)
@@ -157,122 +140,29 @@ def get_thumbnail(urls, save_name):
         if response.status_code == 200:
             with open(name, "wb") as f:
                 f.write(response.content)
-            pic_name.append(name)
         else:
-            print(f"❌ Error couldn't find {name} thumbnail image")
+            return
 
-    print("🥅 Get Them all")
-    return pic_name
-            
+        return name
+                
 
-# Change the songs cover
-def add_thumbnail(songs_path, cover_pic_path):
-    print("\n🎨 Changing the song's thumbnail")
-    for song, cover_pic in tqdm(zip(songs_path, cover_pic_path), desc="Changing", total=len(songs_path), unit="song"):
-        song_path = os.path.join("Songs", song)  # Merge path using os.path.join
+    # Change the songs cover
+    def add_thumbnail(self, song, cover_pic, DOWNLOAD_FOLDER):
+            song_path = os.path.join(DOWNLOAD_FOLDER, song)  # Merge path using os.path.join
 
-        try:
-            audio = MP3(song_path, ID3=ID3)
-        except ID3NoHeaderError:  # If the song doesn't have ID3 tag
-            audio = MP3(song_path)
-            audio.add_tags()
+            try:
+                audio = MP3(song_path, ID3=ID3)
+            except ID3NoHeaderError:  # If the song doesn't have ID3 tag
+                audio = MP3(song_path)
+                audio.add_tags()
 
-        with open(cover_pic, "rb") as img:
-            audio.tags.add(APIC(
-                encoding=3,
-                mime="image/jpeg",  # Picture format inculude jpg
-                type=3,
-                desc="Cover",
-                data=img.read()
-            ))
+            with open(cover_pic, "rb") as img:
+                audio.tags.add(APIC(
+                    encoding=3,
+                    mime="image/jpeg",  # Picture format inculude jpg
+                    type=3,
+                    desc="Cover",
+                    data=img.read()
+                ))
 
-        audio.save()  # Save for each changes
-    print("🎵 All thumbnails updated successfully!")
-
-found_song = []
-thumbnail_url = []
-token = get_token()
-DOWNLOAD_FOLDER = "Songs"
-PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
-
-
-# Make the folder to store downloaded song if it's not found
-if not os.path.exists(DOWNLOAD_FOLDER):
-    os.makedirs(DOWNLOAD_FOLDER)
-
-
-if not os.path.exists(PIC_FOLDER):
-    os.makedirs(PIC_FOLDER)
-
-# Asking for link from user
-user_link = input("Please enter the link to a playlist or song\n=> ")
-
-# If it is album
-if user_link.split("/")[3] == "album":
-    playlist_id = user_link.split("/")[4]
-    playlist_songs = get_album_song(token, playlist_id)
-    items = playlist_songs["tracks"]["items"]
-    print("Songs Found:")
-
-    # Printing one by one with number for cleaner output
-    for idx, song in enumerate(items):
-        full_title = f"{song["artists"][0]["name"]} - {song['name']}"
-        print(f"{idx + 1}: {full_title}")
-
-        # Store all founded songs and thumbnails 
-        thumbnail_url.append(playlist_songs["images"][0]["url"])
-        found_song.append(full_title)
-
-# If it is playlist
-elif user_link.split("/")[3] == "playlist":
-    playlist_id = user_link.split("/")[4]
-    playlist_url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-    playlist_songs, next_playlist = get_playlist_song(token, playlist_url)
-    items = playlist_songs["items"]
-    print("Songs Found:")
-
-    # If song is more than 100, proccesing every 100
-    if next_playlist:
-        while next_playlist:
-            playlist_songs, next_playlist = get_playlist_song(token, next_playlist)
-            items.extend(playlist_songs["items"])
-        for idx, song in enumerate(items):
-                full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
-                print(f"{idx + 1}: {full_title}")
-
-                thumbnail_url.append(song["track"]["album"]["images"][0]["url"])
-                found_song.append(full_title)
-    
-    # If not 100 or less than 100 
-    else:
-        for idx, song in enumerate(items):
-            full_title = f"{song["track"]["name"]} - {song["track"]["artists"][0]["name"]}"
-            print(f"{idx + 1}: {full_title}")
-
-            thumbnail_url.append(song["track"]["album"]["images"][0]["url"])
-            found_song.append(full_title)
-
-# If it is individual song
-elif user_link.split("/")[3] == "track":
-    song_id = user_link.split("/")[4]
-    song = get_songs(token, song_id)
-    full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
-    print("Song Name:", full_title)
-
-    thumbnail_url.append(song["album"]["images"][0]["url"])
-    found_song.append(full_title)
-
-# Collecting youtube's links for all the songs
-youtube_links = search_youtube(found_song)
-
-# Downloading one by one song from youtube to mp3 format
-song_file_name = download_song(youtube_links, found_song)
-
-# Removing unacceptable symbol in name and download the thumbnail
-sanitize_name = sanitize_filename(found_song)
-cover_pic_name = get_thumbnail(thumbnail_url, sanitize_name)
-
-# Change the song cover picture
-add_thumbnail(song_file_name, cover_pic_name)
-# Deleting the cover picture file
-shutil.rmtree(PIC_FOLDER)
+            audio.save()  # Save for each changes
