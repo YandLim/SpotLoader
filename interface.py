@@ -163,6 +163,10 @@ class App(ctk.CTk):
             self.dir_btn.configure(state="normal", fg_color="#1DB954")
             return
         
+        # Clear the link to be readable
+        splitting = user_link[8:].split("/")
+        user_link = user_link[:8] + "/".join(splitting).split("?")[0]
+        
         # Running the backend program
         def run_progress():
             # Define needed variabels
