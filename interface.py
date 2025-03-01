@@ -173,6 +173,7 @@ class App(ctk.CTk):
             found_song = []
             thumbnail_url = []
             token = main.get_token()
+            max_tried = 3
             DOWNLOAD_FOLDER = dir_path
             PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
 
@@ -245,6 +246,26 @@ class App(ctk.CTk):
             # Define the total item found
             found_song_len = len(found_song)
 
+            # Remove all the ureadeable symbol from name
+            sanitize_name = []
+            for i in range(max_tried):
+                try:
+                    self.progress_bar.set(0)
+                    self.precentage_lbl.configure(text= "0%")
+                    self.print_info("🧹 Cleaning file name")
+
+                    for i , file_name in enumerate(found_song):
+                        sanitize = main.sanitize_filename(file_name)
+                        sanitize_name.append(sanitize)
+                        self.progress_bar.set((i + 1)/ found_song_len)
+                        self.update_precentage(i + 1, found_song_len)
+                    self.print_info("✨ Name clean")
+                    break
+                
+                except Exception as e:
+                    self.print_info(f"Error ocured:\n{e}\nRetrying the procces")
+       
+
             # Find the song, updating precentage and progress bar
             youtube_links = []
             self.print_info("\n🔎 Looking for the song in YouTube")     
@@ -257,53 +278,55 @@ class App(ctk.CTk):
 
 
             # Downloading the songs set precentage and progress bar to 0 and updating them again
-            self.progress_bar.set(0)
-            self.precentage_lbl.configure(text= "0%")
             song_file_name = []
-            self.print_info("🗂️Downloading the songs") 
-            for i, (url, name) in enumerate(zip(youtube_links, found_song)):
-                file_name = main.download_song(url, name, DOWNLOAD_FOLDER)
-                song_file_name.append(file_name)
-                self.progress_bar.set((i + 1)/ found_song_len)
-                self.update_precentage(i + 1, found_song_len)
-            self.print_info(f"🎉 Success downloading {len(song_file_name)} Songs") 
-
-            
-            # Remove all the ureadeable symbol from name
-            self.progress_bar.set(0)
-            self.precentage_lbl.configure(text= "0%")
-            sanitize_name = []
-            self.print_info("🧹 Cleaning file name")
-            for i , file_name in enumerate(song_file_name):
-                sanitize = main.sanitize_filename(file_name)
-                sanitize_name.append(sanitize)
-                self.progress_bar.set((i + 1)/ found_song_len)
-                self.update_precentage(i + 1, found_song_len)
-            self.print_info("✨ Name clean")
+            for i in range(max_tried):
+                try:
+                    self.progress_bar.set(0)
+                    self.precentage_lbl.configure(text= "0%")
+                    self.print_info("🗂️Downloading the songs") 
+                    for i, (url, name) in enumerate(zip(youtube_links, sanitize_name)):
+                        file_name = main.download_song(url, name, DOWNLOAD_FOLDER)
+                        song_file_name.append(file_name)
+                        self.progress_bar.set((i + 1)/ found_song_len)
+                        self.update_precentage(i + 1, found_song_len)
+                    self.print_info(f"🎉 Success downloading {len(song_file_name)} Songs") 
+                    break
+                except Exception as e:
+                    self.print_info(f"Error ocured:\n{e}\nRetrying the procces")
 
 
             # Downloading the thumbnail
-            self.progress_bar.set(0)
-            self.precentage_lbl.configure(text= "0%")
             cover_pic_name = []
-            self.print_info("🖼️Downloading the thumbnail") 
-            for i, (url, name) in enumerate(zip(thumbnail_url, sanitize_name)):
-                cover_name = main.get_thumbnail(url, name, PIC_FOLDER)
-                cover_pic_name.append(cover_name)
-                self.progress_bar.set((i + 1)/ found_song_len)
-                self.update_precentage(i + 1, found_song_len)
-            self.print_info("👌 Got'em") 
+            for i in range(max_tried):
+                try:
+                    self.progress_bar.set(0)
+                    self.precentage_lbl.configure(text= "0%")
+                    self.print_info("🖼️Downloading the thumbnail") 
+                    for i, (url, name) in enumerate(zip(thumbnail_url, sanitize_name)):
+                        cover_name = main.get_thumbnail(url, name, PIC_FOLDER)
+                        cover_pic_name.append(cover_name)
+                        self.progress_bar.set((i + 1)/ found_song_len)
+                        self.update_precentage(i + 1, found_song_len)
+                    self.print_info("👌 Got'em") 
+                    break
+                except Exception as e:
+                    self.print_info(f"Error ocured:\n{e}\nRetrying the procces")
 
 
             # Changing the thumbnail for every song
-            self.progress_bar.set(0)
-            self.precentage_lbl.configure(text= "0%")
-            self.print_info("🎨 Changing the song's thumbnail") 
-            for i, (song, cover_pic) in enumerate(zip(song_file_name, cover_pic_name)):
-                main.add_thumbnail(song, cover_pic, DOWNLOAD_FOLDER)
-                self.progress_bar.set((i + 1)/ found_song_len)
-                self.update_precentage(i + 1, found_song_len)
-            self.print_info("🎵 All thumbnails updated successfully!") 
+            for i in range(max_tried):
+                try:
+                    self.progress_bar.set(0)
+                    self.precentage_lbl.configure(text= "0%")
+                    self.print_info("🎨 Changing the song's thumbnail") 
+                    for i, (song, cover_pic) in enumerate(zip(song_file_name, cover_pic_name)):
+                        main.add_thumbnail(song, cover_pic, DOWNLOAD_FOLDER)
+                        self.progress_bar.set((i + 1)/ found_song_len)
+                        self.update_precentage(i + 1, found_song_len)
+                    self.print_info("🎵 All thumbnails updated successfully!") 
+                    break
+                except Exception as e:
+                    self.print_info(f"Error ocured:\n{e}\nRetrying the procces")
 
             # Remove the pic folder with the thumbnail pic in it
             shutil.rmtree(PIC_FOLDER)

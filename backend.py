@@ -117,8 +117,7 @@ class Main:
 
     # Function to remove unacceptable symbol in name such as '?'
     def sanitize_filename(self, name):
-        all_name = []
-        sanitized = re.sub(r'[<>:"/\\|?*]', '', name)
+        sanitized = re.sub(r'[<>:"/\\|?.*!@#$%^&]', '', name)
         return sanitized
 
 
@@ -144,6 +143,7 @@ class Main:
 
     # Change the songs cover
     def add_thumbnail(self, song, cover_pic, DOWNLOAD_FOLDER):
+            print(song)
             song_path = os.path.join(DOWNLOAD_FOLDER, song)  # Merge path using os.path.join
 
             try:
