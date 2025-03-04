@@ -143,7 +143,6 @@ class Main:
 
     # Change the songs cover
     def add_thumbnail(self, song, cover_pic, DOWNLOAD_FOLDER):
-            print(song)
             song_path = os.path.join(DOWNLOAD_FOLDER, song)  # Merge path using os.path.join
 
             try:
