@@ -16,7 +16,7 @@ class App(ctk.CTk):
         self.geometry("850x600")
         self.title("SpotLoader")
         self._set_appearance_mode("dark")
-        self.iconbitmap("SpotLoader.ico")
+        self.iconbitmap("Spotloader_icon.ico")
 
         # Make the Main frame to store the content
         self.main_frame = ctk.CTkFrame(self, fg_color="#202528", corner_radius=100, border_width=5, border_color="black")
