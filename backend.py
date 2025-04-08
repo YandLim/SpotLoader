@@ -1,12 +1,14 @@
 # Importing libraries
 from dotenv import load_dotenv
 from requests import post, get
-from yt_dlp import YoutubeDL
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, ID3NoHeaderError
 import urllib.request
 import urllib.parse
 import requests
+import subprocess
 import base64
 import json
 import os
@@ -87,32 +89,28 @@ class Main:
 
 
     # Function to download song from youtube to mp3
-    def download_song(self, url, name, DOWNLOAD_FOLDER):
-        save_path = os.path.join(DOWNLOAD_FOLDER, name)
+    def download_song(self, url, name, DOWNLOAD_FOLDER):  
+        mp3_path = os.path.join(DOWNLOAD_FOLDER, name + ".mp3")
+        m4a_path = os.path.join(DOWNLOAD_FOLDER, name + ".m4a")
 
-        ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': save_path,
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'ffmpeg_location': r'ffmpeg_apk\bin',
-        'noplaylist': True
-        }
+        yt = YouTube(url, on_progress_callback= on_progress, use_po_token=True)
+        ys = yt.streams.get_audio_only()
+        ys.download(output_path=DOWNLOAD_FOLDER, filename=name + ".m4a")
 
-        try:
-            with YoutubeDL(ydl_opts) as ydl:
-                ydl.download(url)
+        subprocess.run([
+            "ffmpeg_apk\\bin\\ffmpeg.exe",
+            "-y",
+            "-i", m4a_path,
+            "-vn",
+            "-ar", "44100",
+            "-ac", "2",
+            "-b:a", "192k",
+            mp3_path
+        ])
+
+        os.remove(m4a_path)
             
-
-        except Exception as e:
-            return
-
-        store_name = name + ".mp3"
-
-        return store_name
+        return name + ".mp3"
 
 
     # Function to remove unacceptable symbol in name such as '?'
