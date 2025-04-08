@@ -93,7 +93,7 @@ class Main:
         mp3_path = os.path.join(DOWNLOAD_FOLDER, name + ".mp3")
         m4a_path = os.path.join(DOWNLOAD_FOLDER, name + ".m4a")
 
-        yt = YouTube(url, on_progress_callback= on_progress, use_po_token=True)
+        yt = YouTube(url, on_progress_callback= on_progress)
         ys = yt.streams.get_audio_only()
         ys.download(output_path=DOWNLOAD_FOLDER, filename=name + ".m4a")
 
