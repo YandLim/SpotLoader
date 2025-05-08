@@ -1,10 +1,10 @@
 # Importing libraries
-from dotenv import load_dotenv
 from requests import post, get
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC, ID3NoHeaderError
+from cryptography.fernet import Fernet
 import urllib.request
 import urllib.parse
 import requests
@@ -13,14 +13,23 @@ import base64
 import json
 import os
 import re
+import os
 
 # Make the backend class
 class Main:
     def __init__(self):
+        # Decrypting the .env file
+        key = "NGGmc_ZEuZ6_hr91Wt-jYwC1TyHRzoEWSELGMRGQ1qY="
+        with open(".env", "rb") as thefile:
+            contents = thefile.read()
+        content_encrypt = Fernet(key).decrypt(contents)
+
         # Load the env data
-        load_dotenv()
-        self.client_id = os.getenv("CLIENT_ID")
-        self.client_secret = os.getenv("CLIENT_SECRET")
+        self.client_id = content_encrypt.decode("utf-8").split("\n")[0].split("=")[1].replace('"', "").strip()
+        self.client_secret = content_encrypt.decode("utf-8").split("\n")[1].split("=")[1].replace('"', "").strip()
+
+        print(self.client_id)
+        print(self.client_secret)
 
     # Get the token for authentication
     def get_token(self):

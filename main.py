@@ -1,4 +1,4 @@
-# Import the interface and .env
+# Import the interface and other modules
 from interface import App
 
 # Running the app
