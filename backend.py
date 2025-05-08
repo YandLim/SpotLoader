@@ -11,6 +11,7 @@ import requests
 import subprocess
 import base64
 import json
+import sys
 import os
 import re
 import os
@@ -115,7 +116,7 @@ class Main:
             "-ac", "2",
             "-b:a", "192k",
             mp3_path
-        ])
+        ], creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0)
 
         os.remove(m4a_path)
             
