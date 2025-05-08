@@ -139,7 +139,7 @@ class App(ctk.CTk):
         # Make all the button disable to click after clicking download button
         self.download_btn.configure(text="Downloading...", state="disabled", fg_color="#127A37")
         self.dir_btn.configure(state="disabled", fg_color="#127A37")
-
+        
         # Checking if download path is avaible. If not, ask it again
         dir_path = self.dir_text.get(1.0, "end-1c")
         if dir_path == "Choose Download Folder":
@@ -169,22 +169,23 @@ class App(ctk.CTk):
         
         # Running the backend program
         def run_progress():
-            # Define needed variabels
-            found_song = []
-            thumbnail_url = []
-            token = main.get_token()
-            max_tried = 3
-            DOWNLOAD_FOLDER = dir_path
-            PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
-
-            # Checking if download path is avaible. If not, make one
-            if not os.path.exists(PIC_FOLDER):
-                os.makedirs(PIC_FOLDER)
-
-            # Printing info out 
-            self.print_info("\nFound Song:")
-
+            # Check if there is any error
             try:
+                # Define needed variabels
+                found_song = []
+                thumbnail_url = []
+                token = main.get_token()
+                max_tried = 3
+                DOWNLOAD_FOLDER = dir_path
+                PIC_FOLDER = os.path.join(DOWNLOAD_FOLDER, "Pic")
+
+                # Checking if download path is avaible. If not, make one
+                if not os.path.exists(PIC_FOLDER):
+                    os.makedirs(PIC_FOLDER)
+
+                # Printing info out 
+                self.print_info("\nFound Song:")
+
                 # If it is album
                 if user_link.split("/")[3] == "album":
                     playlist_id = user_link.split("/")[4]
@@ -337,6 +338,7 @@ class App(ctk.CTk):
 
             except Exception as e:
                 self.print_info("Some error occured pls try again and check the Internet Conection.\n If error keep happening, pls contact the developer team")
+                self.print_info(f"Error: {e}")
 
             finally:
                 # Make the button avaible and hide the progress and precentage bar
@@ -344,6 +346,6 @@ class App(ctk.CTk):
                 self.precentage_lbl.place_forget()     
                 self.download_btn.configure(state="normal", text="Download", fg_color="#1DB954")
                 self.dir_btn.configure(state="normal", fg_color="#1DB954")
-
+                self.link_entry.insert(0, "")
 
         threading.Thread(target=run_progress, daemon=True).start()
