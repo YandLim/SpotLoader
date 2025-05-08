@@ -28,9 +28,7 @@ class Main:
         # Load the env data
         self.client_id = content_encrypt.decode("utf-8").split("\n")[0].split("=")[1].replace('"', "").strip()
         self.client_secret = content_encrypt.decode("utf-8").split("\n")[1].split("=")[1].replace('"', "").strip()
-
-        print(self.client_id)
-        print(self.client_secret)
+        
 
     # Get the token for authentication
     def get_token(self):
