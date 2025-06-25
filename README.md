@@ -65,7 +65,7 @@ pyinstaller --onedir --windowed --icon=SpotLoader.ico main.py
 - Separating the Interface and Backend is always a good idea
 - Commenting a important function could be come in handy later
 - Working with API is way more recomended than scraping without API
-- Making flowchart for yourself can't be really helpfull(I Think)
+- Making flowchart for yourself can help you understand the workflow more(I Think)
    
 ## 🗨️Feedback
 If you encounter any problems with this application or have idea for other feature, please feel free to open an issue on the Github page so that the maintainers can assist you.
