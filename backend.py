@@ -29,9 +29,6 @@ class Main:
         self.client_id = content_encrypt.decode("utf-8").split("\n")[0].split("=")[1].replace('"', "").strip()
         self.client_secret = content_encrypt.decode("utf-8").split("\n")[1].split("=")[1].replace('"', "").strip()
 
-        print(self.client_id)
-        print(self.client_secret)
-
     # Get the token for authentication
     def get_token(self):
         auth_string = self.client_id + ":" + self.client_secret
@@ -80,7 +77,7 @@ class Main:
 
     # Finding song in YouTube using name
     def search_youtube(self, song):
-        # Find t=in youtube using name
+        # Find the song in youtube using name
         search_query = urllib.parse.quote(song)
         url = f"https://www.youtube.com/results?search_query={search_query}"
         
