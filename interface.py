@@ -184,12 +184,22 @@ class App(ctk.CTk):
                     os.makedirs(PIC_FOLDER)
 
                 # Printing info out 
-                self.print_info("\nFound Song:")
+                self.print_info("\nFound Song:")       
+
+                parts = user_link.split("/")
+                for i, part in enumerate(parts):
+                    if part in ["album", "playlist", "track"]:
+                        type_index = i
+                        break
+                else:
+                    raise ValueError("Invalid Spotify Link")       
+
+                link_type = parts[type_index]
+                link_index = parts[type_index + 1]      
 
                 # If it is album
-                if user_link.split("/")[3] == "album":
-                    playlist_id = user_link.split("/")[4]
-                    playlist_songs = main.get_album_song(token, playlist_id)
+                if link_type == "album":
+                    playlist_songs = main.get_album_song(token, link_index)
                     items = playlist_songs["tracks"]["items"]
 
                     # Printing one by one with number for cleaner output
@@ -201,9 +211,8 @@ class App(ctk.CTk):
                         found_song.append(full_title)
 
                 # If it is playlist
-                elif user_link.split("/")[3] == "playlist":
-                    playlist_id = user_link.split("/")[4]
-                    playlist_url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+                elif link_type == "playlist":
+                    playlist_url = f"https://api.spotify.com/v1/playlists/{link_index}/tracks"
                     playlist_songs, next_playlist = main.get_playlist_song(token, playlist_url)
                     items = playlist_songs["items"]
 
@@ -231,9 +240,8 @@ class App(ctk.CTk):
                             found_song.append(full_title)
 
                 # If it is individual song
-                elif user_link.split("/")[3] == "track":
-                    song_id = user_link.split("/")[4]
-                    song = main.get_songs(token, song_id)
+                elif link_type == "track":
+                    song = main.get_songs(token, link_index)
                     full_title = f"{song["artists"][0]["name"]} - {song["name"]}"
 
                     thumbnail_url.append(song["album"]["images"][0]["url"])
