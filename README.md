@@ -11,6 +11,9 @@ Of course it's happening so I was thinking. Why I dont use flashdisk or memory c
 To Build the app i use Python as main language, and custom tkinter as modern friendly interface. Instead of scraping the spotify using bs4, or selenium I use the API of spotify itself that makes me unstoppable at get the data.
 After get the name of each song from playlist or album I pass them to youtube to find the right accurate video of the song. And after that I download them and change the song cover to the same cover picture from the spotify.
 
+## ⚙️Workflow
+![Flowchart](attachment/Spotloader_workflow.png)
+
 ## 🖨️Output
 ![Interface](attachment/Interface_pic.png)
 
