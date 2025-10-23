@@ -11,6 +11,9 @@ Of course it's happening so I was thinking. Why I dont use flashdisk or memory c
 To Build the app i use Python as main language, and custom tkinter as modern friendly interface. Instead of scraping the spotify using bs4, or selenium I use the API of spotify itself that makes me unstoppable at get the data.
 After get the name of each song from playlist or album I pass them to youtube to find the right accurate video of the song. And after that I download them and change the song cover to the same cover picture from the spotify.
 
+## 🖨️Output
+![Interface](attachment/Interface_pic.png)
+
 ## ❓How to run the program:
 1. Donwload the modules from requirement.txt using
 ```
@@ -27,7 +30,7 @@ CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 
 4. If you want to make it as exe file download pyinstaller and
 ```
-pyinstaller --onedir --windowed --icon=SpotLoader.ico main.py
+pyinstaller --onedir --windowed --icon=attachment/SpotLoader.ico main.py
 ```
 
 5. If you make the exe file copy the .ico file to same dir as the main.exe file and the ffmpeg_apk in the same dir as main.exe file as well
