@@ -12,10 +12,10 @@ To Build the app i use Python as main language, and custom tkinter as modern fri
 After get the name of each song from playlist or album I pass them to youtube to find the right accurate video of the song. And after that I download them and change the song cover to the same cover picture from the spotify.
 
 ## ⚙️Workflow
-![Flowchart](attachment/Spotloader_flowchart.png)
+<img src="attachment/Spotloader_flowchart.png" alt="Flowchart" width=700>
 
 ## 🖨️Output
-![Interface](attachment/Interface_pic.png)
+<img src="attachment/Interface_pic.png" alt="Interface" width=400>
 
 ## ❓How to run the program:
 1. Donwload the modules from requirement.txt using
